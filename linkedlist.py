@@ -85,6 +85,7 @@ class LinkedList:
 # ******
     def printList(self):
         counter = 1
+        
         current = self.head
         while current:
             print(f"{counter})  {current.value}")

@@ -13,6 +13,23 @@ from switchobject import *
 from sys import version
 
 #------
+class Looper:
+    def __init__(self):
+        self.looper = True
+
+    def status(self):
+        return self.looper
+
+    def setFalse(self):
+        self.looper = False
+
+    def setTrue(self):
+        self.looper = True
+
+    def flip(self):
+        self.looper = not looper
+
+#------
 class ToDo:
     def __init__(self, fileContents):
         self.todoList = LinkedList()
@@ -56,7 +73,7 @@ class ToDo:
         print(f"\"{tempNext.strip()}\" has been added to your to do list")
         print('')
         self.todoList.append(Node(nextTrimmed))
-        self.sortList()
+        # self.sortList()
         self.printTodo()
         self.progressSafe is False
         print('')
@@ -151,14 +168,13 @@ class ToDo:
    # def loadList(self):        --> Will erase the current unsaved list and will load a list from the file
    # def saveWarning(self):     --> Will warn the user if they are about to erase unsaved work
 
-looper = []
-looper.append(True)
+looper = Looper()
 choice = 0
 myList = None
 
 print(version)
 
-while looper[0]:
+while looper.status():
     print('What would you like to do?')
     print('1) Make a new list')
     print('2) Load a list from a file')
@@ -167,7 +183,7 @@ while looper[0]:
     if choice > 3 or choice < 0:
         print('Invalid choice.  Please try again.')
     else:
-        looper[0] = False
+        looper.setFalse()
 
 if choice == 1:
     myList = ToDo(int(0))
@@ -175,13 +191,13 @@ if choice == 1:
 elif choice == 2:
     fileName = ""
     fileContents = ""
-    looper = True
+    looper.setTrue()
     while looper:
         print("Enter the name of the file you would like to load - ignore extentions")
         fileName = input()
         try:
             fileContents = open(f"{fileName}.tdl", "r")
-            looper = False
+            looper.setFalse()
         except OSError:
             print('Error opening file.  Does it exist as spelled?')
     myList = ToDo(fileContents)
@@ -190,19 +206,14 @@ else:
     print('Goodbye!')
     quit()
 
-looper.append(True)
 choice = 0
-
-def endLoop(boolIn):
-    boolIn = False
 
 addFunc = lambda : myList.getItem(input("Please enter the new list item:    "))
 delFunc = lambda : myList.removeItem(input("Please enter the item # for removal:    "))
-quitFunc = lambda : endLoop(looper[1])
+quitFunc = lambda : looper.setFalse()
 defFunc = lambda : print("The selection was not found.  Please try again!")
 
 noList = []
-
 quitParam = []
 quitParam.append(looper)
 
@@ -212,7 +223,9 @@ params = [noList, noList, noList, noList]
 
 mySwitch = Switch(conds, funcs, params)
 
-while looper[1]:
+looper.setTrue()
+
+while looper.status():
     myList.printTodo()
 
     print('What would you like to do?')
