@@ -28,7 +28,20 @@ class Looper:
 
     def flip(self):
         self.looper = not looper
+#------
+class File:
+    def __init__(self):
+        self.file = None
+        self.title = ""
+    
+    def openFile(self, titleIn):
+        self.title = f"{titleIn}.tdl"
+        self.file = open(title, )
 
+    def passFile(self, titleIn):
+        self.openFile(titleIn)
+        self.output = self.file
+        return file
 #------
 class ToDo:
     def __init__(self, fileContents):
@@ -47,6 +60,28 @@ class ToDo:
         print('---------------------------------------------------')
         print('')
         print('')
+
+    #******
+    def delTodo(self):
+        self.todoList.clearList()
+        print('')
+        print('List has been deleted.')
+        print('')
+
+    #******
+    def getListFromFile(self, fileName):
+        try:
+            file = open(fileName, "rt")
+        except:
+            print("The file could not be found")
+            return
+        self.delTodo()
+        lineVar = file.readlines()
+        for iter in lineVar:
+            self.getItemSilent(iter.strip())
+        file.close()
+        self.sortList()
+        self.printTodo()
 
     #******
     def getItem(self, nextItem):
@@ -73,7 +108,7 @@ class ToDo:
         print(f"\"{tempNext.strip()}\" has been added to your to do list")
         print('')
         self.todoList.append(Node(nextTrimmed))
-        # self.sortList()
+        self.sortList()
         self.printTodo()
         self.progressSafe is False
         print('')
@@ -172,6 +207,23 @@ looper = Looper()
 choice = 0
 myList = None
 
+addFunc = lambda : myList.getItem(input("Please enter the new list item:    "))
+delFunc = lambda : myList.removeItem(input("Please enter the item # for removal:    "))
+loadFunc = lambda : myList.getListFromFile(input("Please enter the name of the file to load:    "))
+#saveFunc = lambda : 
+quitFunc = lambda : looper.setFalse()
+defFunc = lambda : print("The selection was not found.  Please try again!")
+
+noList = []
+quitParam = []
+quitParam.append(looper)
+
+funcs = [addFunc, delFunc, loadFunc, quitFunc, defFunc]
+conds = [1, 2, 3, 4, None]
+params = [noList, noList, noList, noList, noList]
+
+mySwitch = Switch(conds, funcs, params)
+
 print(version)
 
 while looper.status():
@@ -192,36 +244,14 @@ elif choice == 2:
     fileName = ""
     fileContents = ""
     looper.setTrue()
-    while looper:
-        print("Enter the name of the file you would like to load - ignore extentions")
-        fileName = input()
-        try:
-            fileContents = open(f"{fileName}.tdl", "r")
-            looper.setFalse()
-        except OSError:
-            print('Error opening file.  Does it exist as spelled?')
-    myList = ToDo(fileContents)
+    myList = ToDo(int(0))
+    mySwitch.parse(3)
 
 else:
     print('Goodbye!')
     quit()
 
 choice = 0
-
-addFunc = lambda : myList.getItem(input("Please enter the new list item:    "))
-delFunc = lambda : myList.removeItem(input("Please enter the item # for removal:    "))
-quitFunc = lambda : looper.setFalse()
-defFunc = lambda : print("The selection was not found.  Please try again!")
-
-noList = []
-quitParam = []
-quitParam.append(looper)
-
-funcs = [addFunc, delFunc, quitFunc, defFunc]
-conds = [1, 2, 3, None]
-params = [noList, noList, noList, noList]
-
-mySwitch = Switch(conds, funcs, params)
 
 looper.setTrue()
 
@@ -232,9 +262,9 @@ while looper.status():
     print('1) Add an item')
     print('2) Delete an item')
     #print('3) Change an item\'s priority')
-    #print('4) Save my list as a file')
-   # print('5) Open a different to do list')
-    print('3) Quit the application')
+   # print('3) Save my list as a file')
+    print('3) Open a different to do list')
+    print('4) Quit the application')
 
     mySwitch.parse(int(input("Choose your option:   ")))
 
