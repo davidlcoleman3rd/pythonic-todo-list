@@ -84,6 +84,24 @@ class ToDo:
         self.printTodo()
 
     #******
+    def saveListToFile(self, fileName):
+        try:
+            tempFile = open(f'{fileName}.tdl', 'w')
+        except:
+            print("Error:  The file could not be created.")
+            print("Make sure the filename only contains numbers and/or letters.")
+            return
+        tempCount = 1
+        print('thing that happened')
+        while tempCount <= self.todoList.length:
+            print('another thing that happened')
+            tempFile.write(f'{self.todoList.iterate(tempCount)}\n')
+            tempCount = tempCount + 1
+            print ('tester')
+        progressSafe = True
+        tempFile.close()
+
+    #******
     def getItem(self, nextItem):
         nextTrimmed = ''
         tempNext = ''
@@ -210,7 +228,7 @@ myList = None
 addFunc = lambda : myList.getItem(input("Please enter the new list item:    "))
 delFunc = lambda : myList.removeItem(input("Please enter the item # for removal:    "))
 loadFunc = lambda : myList.getListFromFile(input("Please enter the name of the file to load:    "))
-#saveFunc = lambda : 
+saveFunc = lambda : myList.saveListToFile(input("Please enter the name of the file to save:    "))
 quitFunc = lambda : looper.setFalse()
 defFunc = lambda : print("The selection was not found.  Please try again!")
 
@@ -218,9 +236,9 @@ noList = []
 quitParam = []
 quitParam.append(looper)
 
-funcs = [addFunc, delFunc, loadFunc, quitFunc, defFunc]
-conds = [1, 2, 3, 4, None]
-params = [noList, noList, noList, noList, noList]
+funcs = [addFunc, delFunc, loadFunc, saveFunc, quitFunc, defFunc]
+conds = [1, 2, 3, 4, 5, None]
+params = [noList, noList, noList, noList, noList, noList]
 
 mySwitch = Switch(conds, funcs, params)
 
@@ -261,10 +279,10 @@ while looper.status():
     print('What would you like to do?')
     print('1) Add an item')
     print('2) Delete an item')
-    #print('3) Change an item\'s priority')
-   # print('3) Save my list as a file')
     print('3) Open a different to do list')
-    print('4) Quit the application')
+    print('4) Save my list as a file')
+    #print('5) Change an item\'s priority')
+    print('5) Quit the application')
 
     mySwitch.parse(int(input("Choose your option:   ")))
 

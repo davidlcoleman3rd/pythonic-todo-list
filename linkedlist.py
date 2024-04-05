@@ -62,8 +62,9 @@ class LinkedList:
         while position <= self.length:
             if selection == current.value:
                 return current.value
-        else:
-            return None
+            else:
+                return None
+            position = position + 1
 
 # ******
     def iterate(self, selection):
