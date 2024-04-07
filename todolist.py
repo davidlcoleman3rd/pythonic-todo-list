@@ -125,6 +125,7 @@ class ToDo:
                 trimCounter = trimCounter + 1
         print(f"\"{tempNext.strip()}\" has been added to your to do list")
         print('')
+        print(nextTrimmed)
         self.todoList.append(Node(nextTrimmed))
         self.sortList()
         self.printTodo()
@@ -135,11 +136,8 @@ class ToDo:
     #******
     def getItemSilent(self, nextItem):   # DO NOT ADD SORTING TO THIS
         nextTrimmed = ''                 # This is a utility specifically FOR
-        tempNext = ''                    # ...the sorting function.  Adding sorting
+                                         # ...the sorting function.  Adding sorting
         trimCounter = 0                  # ...WILL break this!!!!!
-        for i in nextItem:
-            if i != '*':
-                tempNext = tempNext + i
         for i in nextItem:
             if i == '*':
                 trimCounter = trimCounter + 1
@@ -154,6 +152,15 @@ class ToDo:
                 if trimCounter <= 40:
                     nextTrimmed = nextTrimmed + i
                 trimCounter = trimCounter + 1
+        self.todoList.append(Node(nextTrimmed))
+        self.progressSafe is False
+
+    #******
+    def getItemAgain(self, nextItem):
+        nextTrimmed = ''
+
+        for i in nextItem:
+            nextTrimmed = nextTrimmed + i
         self.todoList.append(Node(nextTrimmed))
         self.progressSafe is False
 
@@ -201,6 +208,7 @@ class ToDo:
             tempArr.append(current)
             current = current.next
         for i in tempArr:
+            print(i)
             if i.value[0] == "*":
                 inputArr.append(i)
             else:
@@ -210,8 +218,11 @@ class ToDo:
         finalArr = finalArr + nextArr
         
         self.todoList.clearList()
+        print('testing to see if things break in sortList:')
         for i in finalArr:
-            self.getItemSilent(i.value)
+            print(i.value)
+        for i in finalArr:
+            self.getItemAgain(i.value)
 
 
 
