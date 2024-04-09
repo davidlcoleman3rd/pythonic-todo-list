@@ -1,6 +1,7 @@
 
 from linkedlist import *
 
+
 class Bundle:
     def __init__(self, function, condition, dependencies):
         self.method = function

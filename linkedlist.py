@@ -1,4 +1,5 @@
 
+from math import log10
 
 class NoValueFound(Exception):
     "Raised when the desired list item to be removed cannot be found in the list."
@@ -89,7 +90,13 @@ class LinkedList:
         
         current = self.head
         while current:
-            print(f"{counter})  {current.value}")
+            spacer = ''
+            if int(log10(counter)) < int(log10(self.length)):
+                spaceCount = 0
+                while spaceCount < (int(log10(self.length)) - int(log10(counter))):
+                    spacer += ' '
+                    spaceCount += 1
+            print(f"{counter}) {spacer}{current.value}")
             current = current.next
             counter = counter + 1
 

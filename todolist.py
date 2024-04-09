@@ -11,6 +11,7 @@
 from linkedlist import *
 from switchobject import *
 from sys import version
+from re import sub
 
 #------
 class Looper:
@@ -28,6 +29,7 @@ class Looper:
 
     def flip(self):
         self.looper = not looper
+"""
 #------
 class File:
     def __init__(self):
@@ -42,6 +44,7 @@ class File:
         self.openFile(titleIn)
         self.output = self.file
         return file
+"""
 #------
 class ToDo:
     def __init__(self, fileContents):
@@ -50,9 +53,9 @@ class ToDo:
         if fileContents != 0:
             for line in fileContents:
                 line = line.replace("\n", "")
-                self.getItemSilent(line)    
-
-    #******
+                self.getItemSilent(line)
+    
+    #------
     def printTodo(self):
         print(f"Current To Do List:")
         print('---------------------------------------------------')
@@ -92,10 +95,9 @@ class ToDo:
             print("Make sure the filename only contains numbers and/or letters.")
             return
         tempCount = 1
-        print('thing that happened')
         while tempCount <= self.todoList.length:
-            print('another thing that happened')
-            tempFile.write(f'{self.todoList.iterate(tempCount)}\n')
+            tempStr = sub(' +', ' ', self.todoList.iterate(tempCount))
+            tempFile.write(f'{tempStr}\n')
             tempCount = tempCount + 1
             print ('tester')
         progressSafe = True
