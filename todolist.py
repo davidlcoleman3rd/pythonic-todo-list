@@ -185,6 +185,51 @@ class ToDo:
         print('')
 
     #******
+    def removeItemSilent(self, choice):
+        try:
+            self.todoList.delete(int(choice))
+        except TypeError:
+            print('Please only use an integer to select your to-do-list item')
+            return
+        except NoValueFound:
+            print('The item to be deleted from the list was not found')
+            return
+        print('')
+        self.progressSafe is False
+        print('')
+        print('')
+
+
+    #******
+    def changeItem(self, choice):
+        self.removeItemSilent(choice)
+        newItem = input('Please enter the your edit for the item: ')
+        nextTrimmed = ''                 
+        trimCounter = 0                  
+        for i in newItem:
+            if i == '*':
+                trimCounter = trimCounter + 1
+                if trimCounter <= 5:
+                    nextTrimmed = nextTrimmed + i
+                elif trimCounter == 6:
+                    nextTrimmed = nextTrimmed + ' '
+            else:
+                while trimCounter <= 5:
+                    nextTrimmed = nextTrimmed + ' '
+                    trimCounter = trimCounter + 1
+                if trimCounter <= 40:
+                    nextTrimmed = nextTrimmed + i
+                trimCounter = trimCounter + 1
+        try:
+            self.todoList.insert(int(choice) - 1, nextTrimmed)
+        except NoValueFound:
+            print('There was an error processing the request. Item deleted...')
+        self.sortList()
+        self.progressSafe is False
+            
+            
+
+    #******
     def sortLayer(self, input, depth):
         tempArr = []
         nextArr = []
@@ -242,6 +287,7 @@ addFunc = lambda : myList.getItem(input("Please enter the new list item:    "))
 delFunc = lambda : myList.removeItem(input("Please enter the item # for removal:    "))
 loadFunc = lambda : myList.getListFromFile(input("Please enter the name of the file to load:    "))
 saveFunc = lambda : myList.saveListToFile(input("Please enter the name of the file to save:    "))
+editFunc = lambda : myList.changeItem(input("Please enter the number of the item you'd like to edit:    "))
 quitFunc = lambda : looper.setFalse()
 defFunc = lambda : print("The selection was not found.  Please try again!")
 
@@ -249,9 +295,9 @@ noList = []
 quitParam = []
 quitParam.append(looper)
 
-funcs = [addFunc, delFunc, loadFunc, saveFunc, quitFunc, defFunc]
-conds = [1, 2, 3, 4, 5, None]
-params = [noList, noList, noList, noList, noList, noList]
+funcs = [addFunc, delFunc, loadFunc, saveFunc, editFunc, quitFunc, defFunc]
+conds = [1, 2, 3, 4, 5, 6, None]
+params = [noList, noList, noList, noList, noList, noList, noList]
 
 mySwitch = Switch(conds, funcs, params)
 
@@ -294,8 +340,8 @@ while looper.status():
     print('2) Delete an item')
     print('3) Open a different to do list')
     print('4) Save my list as a file')
-    #print('5) Change an item\'s priority')
-    print('5) Quit the application')
+    print('5) Change an item')
+    print('6) Quit the application')
 
     mySwitch.parse(int(input("Choose your option:   ")))
 

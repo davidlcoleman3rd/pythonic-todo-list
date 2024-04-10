@@ -57,15 +57,49 @@ class LinkedList:
             raise NoValueFound('The requested list item was not found in the list.')
 
 # ******
+    def insert(self, selection, newItem):
+        current = self.head
+        selection = int(selection)
+        if current is None:
+            print("Curr is none...")
+        else:
+            print(f"length = {self.length}")
+            print(f"length + 1 = {self.length + 1}")
+            print(f"selection = {selection}")
+        if selection <= (self.length) and current != None:
+            
+            counter = 1
+            while counter < selection:
+                current = current.next
+                counter = counter + 1
+            temp = current.next
+            current.next = Node(newItem)
+            current.next.prev = current.next
+            current.next.next = temp
+            if temp is not None:
+                temp.prev = current.next
+            current = None
+            current = self.head
+            
+            self.length += 1
+        else:
+            if current is None:
+                print("Curr is none...")
+            else:
+                print(f"length = {self.length}")
+                print(f"length + 1 = {self.length + 1}")
+                print(f"selection = {selection}")
+            raise NoValueFound('The requested list item was not found. If list empty, use append instead.')
+
+# ******
     def search(self, selection):
         current = self.head
         position = 1
         while position <= self.length:
             if selection == current.value:
                 return current.value
-            else:
-                return None
             position = position + 1
+        return None
 
 # ******
     def iterate(self, selection):
