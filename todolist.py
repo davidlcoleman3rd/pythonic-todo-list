@@ -13,7 +13,45 @@ from switchobject import *
 from sys import version
 from re import sub
 
-#------
+import kivy
+kivy.require('2.1.0') # replace with your current kivy version !
+
+from kivy.app import App
+from kivy.uix.label import Label
+from kivy.uix.button import Button
+from kivy.app import App
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.core.window import Window
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty
+
+Window.size = (360, 600)
+
+class AppWindow(GridLayout):
+    
+    def __init__(self, **kwargs):
+        super(AppWindow, self).__init__(**kwargs)
+        self.cols = 2
+        self.row_force_default=True
+        self.row_default_height=40
+        self.add_widget(Label(text='Add Item'))
+        self.listItem = TextInput(multiline=False)
+        self.add_widget(self.listItem)
+        self.add_widget(Button(text='Save List'))
+        self.password = TextInput(password=True, multiline=False)
+        self.add_widget(Button(text='Load List'))
+
+
+class MyApp(App):
+
+    def build(self):
+        return AppWindow()
+
+
+if __name__ == '__main__':
+    MyApp().run()
+
 class Looper:
     def __init__(self):
         self.looper = True
